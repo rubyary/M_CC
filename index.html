@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular MACC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Open+Sans:wght@300;400;500&display=swap');
+        
+        :root {
+            --primary-color: #70805D;
+            --secondary-color: #2A3B27;
+            --light-accent: #55738D;
+            --light-gray: #96A7B6;
+            --lighter-gray: #CBC8C4;
+            --white: #ffffff;
+            --gray: #555555;
+            --blue-color: #55738D;
+            --light-blue: #96A7B6;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--lighter-gray);
+            color: var(--secondary-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        h1, h2 {
+            font-family: 'EB Garamond', serif;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .semester {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 300px;
+            flex-grow: 1;
+        }
+        
+        .course {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--light-gray);
+        }
+        
+        .course:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course.approved {
+            background-color: var(--light-blue);
+            border-left-color: var(--blue-color);
+            opacity: 0.9;
+        }
+        
+        .course.locked {
+            background-color: var(--lighter-gray);
+            border-left-color: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .course-code {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .course.approved .course-code {
+            color: var(--blue-color);
+        }
+        
+        .credits {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            margin-left: 5px;
+        }
+        
+        .tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--secondary-color);
+            color: var(--lighter-gray);
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+        
+        .locked:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--secondary-color) transparent transparent transparent;
+        }
+        
+        .reset-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .reset-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .progress-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .progress-title {
+            font-family: 'EB Garamond', serif;
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: var(--lighter-gray);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--light-accent));
+            transition: width 0.5s ease;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            margin: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--light-accent);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .semester {
+                width: 90%;
+            }
+            
+            .progress-stats {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Matemáticas Aplicadas y Ciencias de la Computación</h1>
+    
+    <div class="container" id="curriculum-container">
+        <!-- Semestres se generarán con JavaScript -->
+    </div>
+    
+    <div class="progress-container">
+        <h2 class="progress-title">Progreso Académico</h2>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="percentage">0%</div>
+                <div>Completado</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="approved-credits">0</div>
+                <div>Créditos aprobados</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="total-credits">161</div>
+                <div>Créditos totales</div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="reset-btn" id="reset-btn">Reiniciar Progreso</button>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Definición de la malla curricular
+            const curriculum = {
+                semesters: [
+                    {
+                        id: 1,
+                        name: "SEMESTRE I",
+                        courses: [
+                            { code: "11", name: "Precálculo", credits: 3, prerequisites: [] },
+                            { code: "12", name: "Pensamiento matemático", credits: 2, prerequisites: [] },
+                            { code: "13", name: "Programación de Computadores", credits: 3, prerequisites: [] },
+                            { code: "14", name: "Lógica, teoría de números y conjuntos", credits: 3, prerequisites: [] },
+                            { code: "15", name: "Análisis de textos", credits: 2, prerequisites: [] },
+                            { code: "16", name: "Ética", credits: 2, prerequisites: [] },
+                            { code: "17", name: "Cátedra Rosarista", credits: 2, prerequisites: [] }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        name: "SEMESTRE II",
+                        courses: [
+                            { code: "21", name: "Cálculo I", credits: 3, prerequisites: ["11"] },
+                            { code: "22", name: "Física I", credits: 3, prerequisites: ["11"] },
+                            { code: "23", name: "Algoritmos y estructuras de datos", credits: 3, prerequisites: ["13"] },
+                            { code: "24", name: "Lógica para Ciencias de la Computación", credits: 3, prerequisites: ["14"] },
+                            { code: "25", name: "Escritura de textos", credits: 2, prerequisites: [] },
+                            { code: "26", name: "Constitución política e Instrucción cívica", credits: 2, prerequisites: [] },
+                            { code: "27", name: "Electiva HM", credits: 2, prerequisites: [] }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        name: "SEMESTRE III",
+                        courses: [
+                            { code: "31", name: "Cálculo II", credits: 3, prerequisites: ["21"] },
+                            { code: "32", name: "Álgebra lineal", credits: 3, prerequisites: ["21"] },
+                            { code: "33", name: "Arquitectura del Computador", credits: 3, prerequisites: ["22"] },
+                            { code: "34", name: "Teoría de la Computación", credits: 3, prerequisites: ["24"] },
+                            { code: "35", name: "Cornerstone Project", credits: 3, prerequisites: ["21", "23", "24"] },
+                            { code: "36", name: "Ingeniería de Datos", credits: 3, prerequisites: ["13"] }
+                        ]
+                    },
+                    {
+                        id: 4,
+                        name: "SEMESTRE IV",
+                        courses: [
+                            { code: "41", name: "Cálculo III", credits: 3, prerequisites: ["31"] },
+                            { code: "42", name: "Optimización", credits: 3, prerequisites: ["31", "32"] },
+                            { code: "43", name: "Diseño y Análisis de Algoritmos", credits: 3, prerequisites: ["23", "34"] },
+                            { code: "44", name: "Probabilidad y Estadística I", credits: 3, prerequisites: ["31"] },
+                            { code: "45", name: "Teoría de Grafos", credits: 3, prerequisites: ["24"] },
+                            { code: "46", name: "Electiva HM", credits: 2, prerequisites: [] }
+                        ]
+                    },
+                    {
+                        id: 5,
+                        name: "SEMESTRE V",
+                        courses: [
+                            { code: "51", name: "Variable Compleja", credits: 3, prerequisites: ["41"] },
+                            { code: "52", name: "Ecuaciones Diferenciales", credits: 3, prerequisites: ["41", "32",] },
+                            { code: "53", name: "Análisis Real", credits: 3, prerequisites: ["12", "14", "41"] },
+                            { code: "54", name: "Probabilidad y Estadística II", credits: 3, prerequisites: ["44"] },
+                            { code: "55", name: "Keystone Project", credits: 3, prerequisites: ["35", "36", "42", "44"] },
+                            { code: "56", name: "Introduccion a Criptografia", credits: 3, prerequisites: ["13","32"] }
+                        ]
+                    },
+                    {
+                        id: 6,
+                        name: "SEMESTRE VI",
+                        courses: [
+                            { code: "61", name: "Topología", credits: 3, prerequisites: ["51"] },
+                            { code: "62", name: "Mathematical Modeling of Systems in Natural Sciences", credits: 3, prerequisites: ["12", "22", "52", "54"] },
+                            { code: "63", name: "Análisis Estadístico de Datos", credits: 3, prerequisites: ["36", "54"] },
+                            { code: "64", name: "Redes de Computadores", credits: 3, prerequisites: ["45"] },
+                            { code: "65", name: "Seminario de grado I", credits: 2, prerequisites: [] },
+                            { code: "66", name: "Electiva general", credits: 2, prerequisites: [] }
+                        ]
+                    },
+                    {
+                        id: 7,
+                        name: "SEMESTRE VII",
+                        courses: [
+                            { code: "71", name: "Álgebra Abstracta", credits: 3, prerequisites: ["12", "14", "32"] },
+                            { code: "72", name: "Análisis Numérico y Computación Científica", credits: 3, prerequisites: ["23", "32", "52"] },
+                            { code: "73", name: "Operating Systems", credits: 3, prerequisites: ["23", "33"] },
+                            { code: "74", name: "Electiva de profundización", credits: 3, prerequisites: [] },
+                            { code: "75", name: "Trabajo de grado 1", credits: 3, prerequisites: ["66"] }
+                        ]
+                    },
+                    {
+                        id: 8,
+                        name: "SEMESTRE VIII",
+                        courses: [
+                            { code: "81", name: "Geometría", credits: 3, prerequisites: ["52", "61"] },
+                            { code: "82", name: "Electiva de profundización", credits: 3, prerequisites: [] },
+                            { code: "83", name: "Electiva de profundización", credits: 3, prerequisites: [] },
+                            { code: "84", name: "Capstone Project", credits: 3, prerequisites: ["55", "62", "66"] },
+                            { code: "85", name: "Trabajo de grado 2", credits: 3, prerequisites: ["75"] }
+                        ]
+                    }
+                ],
+                totalCredits: 161
+            };
+            
+            // Obtener el contenedor de la malla curricular
+            const container = document.getElementById('curriculum-container');
+            
+            // Cargar el estado guardado o inicializar uno nuevo
+            let approvedCourses = JSON.parse(localStorage.getItem('approvedCourses')) || [];
+            
+            // Función para calcular el progreso
+            function calculateProgress() {
+                let totalCredits = 0;
+                let approvedCredits = 0;
+                
+                // Calcular créditos totales y aprobados
+                curriculum.semesters.forEach(semester => {
+                    semester.courses.forEach(course => {
+                        totalCredits += course.credits;
+                        if (approvedCourses.includes(course.code)) {
+                            approvedCredits += course.credits;
+                        }
+                    });
+                });
+                
+                const percentage = Math.round((approvedCredits / totalCredits) * 100);
+                
+                // Actualizar la UI
+                document.getElementById('percentage').textContent = `${percentage}%`;
+                document.getElementById('approved-credits').textContent = approvedCredits;
+                document.getElementById('total-credits').textContent = totalCredits;
+                document.getElementById('progress-fill').style.width = `${percentage}%`;
+            }
+            
+            // Función para renderizar la malla curricular
+            function renderCurriculum() {
+                container.innerHTML = '';
+                
+                curriculum.semesters.forEach(semester => {
+                    const semesterElement = document.createElement('div');
+                    semesterElement.className = 'semester';
+                    
+                    const semesterTitle = document.createElement('h2');
+                    semesterTitle.textContent = semester.name;
+                    semesterElement.appendChild(semesterTitle);
+                    
+                    semester.courses.forEach(course => {
+                        const courseElement = document.createElement('div');
+                        courseElement.className = 'course';
+                        
+                        // Verificar si el curso está aprobado
+                        const isApproved = approvedCourses.includes(course.code);
+                        
+                        // Verificar si el curso está bloqueado (tiene prerrequisitos no cumplidos)
+                        let isLocked = false;
+                        let missingPrerequisites = [];
+                        
+                        if (!isApproved && course.prerequisites.length > 0) {
+                            missingPrerequisites = course.prerequisites.filter(prereq => !approvedCourses.includes(prereq));
+                            isLocked = missingPrerequisites.length > 0;
+                        }
+                        
+                        if (isApproved) {
+                            courseElement.classList.add('approved');
+                        } else if (isLocked) {
+                            courseElement.classList.add('locked');
+                            
+                            // Crear tooltip para mostrar los prerrequisitos faltantes
+                            const tooltip = document.createElement('div');
+                            tooltip.className = 'tooltip';
+                            
+                            const missingCoursesNames = missingPrerequisites.map(code => {
+                                const foundCourse = findCourseByCode(code);
+                                return foundCourse ? `${code} - ${foundCourse.name}` : code;
+                            });
+                            
+                            tooltip.textContent = `Prerrequisitos faltantes: ${missingCoursesNames.join(', ')}`;
+                            courseElement.appendChild(tooltip);
+                        }
+                        
+                        // Crear el contenido del curso
+                        const courseCode = document.createElement('span');
+                        courseCode.className = 'course-code';
+                        courseCode.textContent = course.code;
+                        
+                        const courseName = document.createElement('span');
+                        courseName.textContent = ` - ${course.name}`;
+                        
+                        const credits = document.createElement('span');
+                        credits.className = 'credits';
+                        credits.textContent = ` (${course.credits} créditos)`;
+                        
+                        courseElement.appendChild(courseCode);
+                        courseElement.appendChild(courseName);
+                        courseElement.appendChild(credits);
+                        
+                        // Agregar evento de clic para seleccionar/deseleccionar
+                        if (!isLocked) {
+                            courseElement.addEventListener('click', () => toggleCourseApproval(course.code));
+                        }
+                        
+                        semesterElement.appendChild(courseElement);
+                    });
+                    
+                    container.appendChild(semesterElement);
+                });
+                
+                // Actualizar el progreso
+                calculateProgress();
+            }
+            
+            // Función para encontrar un curso por su código
+            function findCourseByCode(code) {
+                for (const semester of curriculum.semesters) {
+                    for (const course of semester.courses) {
+                        if (course.code === code) {
+                            return course;
+                        }
+                    }
+                }
+                return null;
+            }
+            
+            // Función para alternar la aprobación de un curso
+            function toggleCourseApproval(courseCode) {
+                const index = approvedCourses.indexOf(courseCode);
+                
+                if (index === -1) {
+                    approvedCourses.push(courseCode);
+                } else {
+                    approvedCourses.splice(index, 1);
+                }
+                
+                localStorage.setItem('approvedCourses', JSON.stringify(approvedCourses));
+                renderCurriculum();
+            }
+            
+            // Función para reiniciar el progreso
+            function resetProgress() {
+                if (confirm('¿Estás seguro de que deseas reiniciar todo tu progreso?')) {
+                    approvedCourses = [];
+                    localStorage.setItem('approvedCourses', JSON.stringify(approvedCourses));
+                    renderCurriculum();
+                }
+            }
+            
+            // Configurar el botón de reinicio
+            document.getElementById('reset-btn').addEventListener('click', resetProgress);
+            
+            // Renderizar la malla curricular inicial
+            renderCurriculum();
+        });
+    </script>
+</body>
+</html>
