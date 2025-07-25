@@ -8,21 +8,21 @@
         @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Open+Sans:wght@300;400;500&display=swap');
         
         :root {
-            --primary-color: #2c7a7b; /* Color principal verde azulado */
-            --secondary-color: #1a365d; /* Color secundario azul oscuro */
-            --light-green: #c6f6d5; /* Fondo claro para materias no seleccionadas */
-            --lighter-green: #e6fffa; /* Fondo más claro */
-            --dark-bg: #1a202c; /* Fondo oscuro de toda la página */
-            --text-dark: #2d3748; /* Texto oscuro */
-            --text-light: #f7fafc; /* Texto claro */
-            --selected-bg: #4fd1c5; /* Fondo para materias seleccionadas (verde azulado claro) */
-            --selected-border: #319795; /* Borde para materias seleccionadas */
+            --primary-color: #ff7eb9;
+            --secondary-color: #ff65a3;
+            --light-pink: #ffd6e7;
+            --lighter-pink: #fff0f7;
+            --white: #ffffff;
+            --gray: #555555;
+            --light-gray: #eeeeee;
+            --blue-color: #4285f4;
+            --light-blue: #e6f0ff;
         }
         
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
+            background-color: var(--lighter-pink);
+            color: var(--gray);
             margin: 0;
             padding: 20px;
             line-height: 1.6;
@@ -30,7 +30,7 @@
         
         h1, h2 {
             font-family: 'EB Garamond', serif;
-            color: var(--text-light);
+            color: var(--secondary-color);
             text-align: center;
         }
         
@@ -57,9 +57,9 @@
         }
         
         .semester {
-            background-color: var(--secondary-color);
+            background-color: var(--white);
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 15px;
             width: 300px;
             flex-grow: 1;
@@ -73,27 +73,25 @@
             transition: all 0.3s ease;
             position: relative;
             border-left: 4px solid var(--primary-color);
-            background-color: var(--light-green);
-            color: var(--text-dark);
+            background-color: var(--light-pink);
         }
         
         .course:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         .course.approved {
-            background-color: var(--selected-bg);
-            border-left-color: var(--selected-border);
-            color: var(--text-dark);
+            background-color: var(--light-blue);
+            border-left-color: var(--blue-color);
+            opacity: 0.9;
         }
         
         .course.locked {
-            background-color: #a0aec0;
-            border-left-color: #718096;
+            background-color: var(--light-gray);
+            border-left-color: #cccccc;
             cursor: not-allowed;
             opacity: 0.7;
-            color: var(--text-dark);
         }
         
         .course-code {
@@ -102,20 +100,20 @@
         }
         
         .course.approved .course-code {
-            color: var(--secondary-color);
+            color: var(--blue-color);
         }
         
         .credits {
             font-size: 0.8rem;
-            color: var(--text-dark);
+            color: var(--gray);
             margin-left: 5px;
         }
         
         .tooltip {
             visibility: hidden;
             width: 200px;
-            background-color: var(--secondary-color);
-            color: var(--text-light);
+            background-color: #333;
+            color: #fff;
             text-align: center;
             border-radius: 6px;
             padding: 5px;
@@ -142,14 +140,14 @@
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: var(--secondary-color) transparent transparent transparent;
+            border-color: #333 transparent transparent transparent;
         }
         
         .reset-btn {
             display: block;
             margin: 30px auto;
             padding: 10px 20px;
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color);
             color: white;
             border: none;
             border-radius: 5px;
@@ -159,29 +157,29 @@
         }
         
         .reset-btn:hover {
-            background-color: var(--selected-border);
+            background-color: var(--primary-color);
         }
         
         .progress-container {
             max-width: 800px;
             margin: 40px auto;
             padding: 20px;
-            background-color: var(--secondary-color);
+            background-color: var(--white);
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         
         .progress-title {
             font-family: 'EB Garamond', serif;
-            color: var(--text-light);
+            color: var(--secondary-color);
             font-size: 1.8rem;
             margin-bottom: 20px;
         }
         
         .progress-bar {
             height: 20px;
-            background-color: var(--dark-bg);
+            background-color: var(--light-gray);
             border-radius: 10px;
             margin-bottom: 15px;
             overflow: hidden;
@@ -189,7 +187,7 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--selected-bg));
+            background: linear-gradient(90deg, var(--primary-color), var(--blue-color));
             transition: width 0.5s ease;
         }
         
@@ -201,13 +199,12 @@
         
         .stat-item {
             margin: 10px;
-            color: var(--text-light);
         }
         
         .stat-value {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--selected-bg);
+            color: var(--blue-color);
         }
         
         @media (max-width: 768px) {
