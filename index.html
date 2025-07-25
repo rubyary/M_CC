@@ -10,13 +10,13 @@
         :root {
             --primary-color: #4CAF50; /* Verde */
             --secondary-color: #2E7D32; /* Verde oscuro */
-            --light-green: #A5D6A7; /* Verde claro */
-            --lighter-green: #1E3A1F; /* Fondo verde oscuro */
-            --white: #E8F5E9; /* Blanco verdoso claro */
-            --gray: #CFD8DC; /* Gris claro */
-            --light-gray: #455A64; /* Gris oscuro */
-            --blue-color: #64B5F6; /* Azul claro */
-            --light-blue: #0D47A1; /* Azul oscuro */
+            --light-green: #81C784; /* Verde claro */
+            --lighter-green: #1E3521; /* Fondo verde oscuro */
+            --white: #ffffff;
+            --gray: #E0E0E0; /* Gris claro para texto */
+            --light-gray: #2D2D2D;
+            --blue-color: #64B5F6; /* Azul claro/verde azulado */
+            --light-blue: #E3F2FD; /* Azul muy claro */
         }
         
         body {
@@ -30,7 +30,7 @@
         
         h1, h2 {
             font-family: 'EB Garamond', serif;
-            color: var(--primary-color);
+            color: var(--light-green);
             text-align: center;
         }
         
@@ -73,48 +73,50 @@
             transition: all 0.3s ease;
             position: relative;
             border-left: 4px solid var(--primary-color);
-            background-color: var(--secondary-color);
-            color: var(--white);
+            background-color: var(--primary-color);
+            color: #000;
         }
         
         .course:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
         .course.approved {
-            background-color: var(--light-blue);
+            background-color: var(--blue-color);
             border-left-color: var(--blue-color);
             opacity: 0.9;
+            color: #000;
         }
         
         .course.locked {
             background-color: var(--light-gray);
-            border-left-color: #37474F;
+            border-left-color: #555555;
             cursor: not-allowed;
             opacity: 0.7;
+            color: var(--gray);
         }
         
         .course-code {
             font-weight: bold;
-            color: var(--light-green);
+            color: var(--secondary-color);
         }
         
         .course.approved .course-code {
-            color: var(--blue-color);
+            color: #0D47A1;
         }
         
         .credits {
             font-size: 0.8rem;
-            color: var(--gray);
+            color: inherit;
             margin-left: 5px;
         }
         
         .tooltip {
             visibility: hidden;
             width: 200px;
-            background-color: #263238;
-            color: var(--white);
+            background-color: #333;
+            color: #fff;
             text-align: center;
             border-radius: 6px;
             padding: 5px;
@@ -141,7 +143,7 @@
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #263238 transparent transparent transparent;
+            border-color: #333 transparent transparent transparent;
         }
         
         .reset-btn {
@@ -173,14 +175,14 @@
         
         .progress-title {
             font-family: 'EB Garamond', serif;
-            color: var(--primary-color);
+            color: var(--light-green);
             font-size: 1.8rem;
             margin-bottom: 20px;
         }
         
         .progress-bar {
             height: 20px;
-            background-color: var(--secondary-color);
+            background-color: var(--lighter-green);
             border-radius: 10px;
             margin-bottom: 15px;
             overflow: hidden;
