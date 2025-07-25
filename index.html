@@ -1,228 +1,228 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Malla Curricular MACC</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Open+Sans:wght@300;400;500&display=swap');
-    
-    :root {
-      --primary-color: #1f5c4d;          /* Verde principal (materia sin seleccionar) */
-      --secondary-color: #339989;       /* Verde azulado (materia seleccionada) */
-      --light-green: #2a7d64;
-      --dark-bg: #0d1f1e;               /* Fondo oscuro */
-      --white: #ffffff;
-      --gray: #cccccc;
-      --light-gray: #444;
-      --approved-bg: #133c37;           /* Fondo de curso aprobado */
-      --locked-bg: #2e2e2e;
-    }
-
-    body {
-      font-family: 'Open Sans', sans-serif;
-      background-color: var(--dark-bg);
-      color: var(--gray);
-      margin: 0;
-      padding: 20px;
-      line-height: 1.6;
-    }
-
-    h1, h2 {
-      font-family: 'EB Garamond', serif;
-      color: var(--secondary-color);
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-      font-weight: 600;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      margin-top: 30px;
-      margin-bottom: 15px;
-      font-weight: 500;
-    }
-
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      gap: 20px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .semester {
-      background-color: #1a2e2b;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      padding: 15px;
-      width: 300px;
-      flex-grow: 1;
-    }
-
-    .course {
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      border-left: 4px solid var(--primary-color);
-      background-color: var(--primary-color);
-      color: var(--white);
-    }
-
-    .course:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .course.approved {
-      background-color: var(--secondary-color);
-      border-left-color: var(--secondary-color);
-      opacity: 1;
-    }
-
-    .course.locked {
-      background-color: var(--locked-bg);
-      border-left-color: var(--light-gray);
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    .course-code {
-      font-weight: bold;
-      color: var(--white);
-    }
-
-    .course.approved .course-code {
-      color: var(--dark-bg);
-    }
-
-    .credits {
-      font-size: 0.8rem;
-      color: var(--gray);
-      margin-left: 5px;
-    }
-
-    .tooltip {
-      visibility: hidden;
-      width: 200px;
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-      border-radius: 6px;
-      padding: 5px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-size: 0.8rem;
-    }
-
-    .locked:hover .tooltip {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .tooltip::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: #000 transparent transparent transparent;
-    }
-
-    .reset-btn {
-      display: block;
-      margin: 30px auto;
-      padding: 10px 20px;
-      background-color: var(--secondary-color);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s;
-    }
-
-    .reset-btn:hover {
-      background-color: var(--primary-color);
-    }
-
-    .progress-container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #1a2e2b;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      text-align: center;
-    }
-
-    .progress-title {
-      font-family: 'EB Garamond', serif;
-      color: var(--secondary-color);
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-    }
-
-    .progress-bar {
-      height: 20px;
-      background-color: var(--locked-bg);
-      border-radius: 10px;
-      margin-bottom: 15px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-      transition: width 0.5s ease;
-    }
-
-    .progress-stats {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-    }
-
-    .stat-item {
-      margin: 10px;
-    }
-
-    .stat-value {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--secondary-color);
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .semester {
-        width: 90%;
-      }
-
-      .progress-stats {
-        flex-direction: column;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular MACC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Open+Sans:wght@300;400;500&display=swap');
+        
+        :root {
+            --primary-color: #4CAF50; /* Verde */
+            --secondary-color: #2E7D32; /* Verde oscuro */
+            --light-green: #A5D6A7; /* Verde claro */
+            --lighter-green: #1E3A1F; /* Fondo verde oscuro */
+            --white: #E8F5E9; /* Blanco verdoso claro */
+            --gray: #CFD8DC; /* Gris claro */
+            --light-gray: #455A64; /* Gris oscuro */
+            --blue-color: #64B5F6; /* Azul claro */
+            --light-blue: #0D47A1; /* Azul oscuro */
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--lighter-green);
+            color: var(--gray);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        h1, h2 {
+            font-family: 'EB Garamond', serif;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .semester {
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            width: 300px;
+            flex-grow: 1;
+        }
+        
+        .course {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+        
+        .course:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .course.approved {
+            background-color: var(--light-blue);
+            border-left-color: var(--blue-color);
+            opacity: 0.9;
+        }
+        
+        .course.locked {
+            background-color: var(--light-gray);
+            border-left-color: #37474F;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .course-code {
+            font-weight: bold;
+            color: var(--light-green);
+        }
+        
+        .course.approved .course-code {
+            color: var(--blue-color);
+        }
+        
+        .credits {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-left: 5px;
+        }
+        
+        .tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: #263238;
+            color: var(--white);
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+        
+        .locked:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #263238 transparent transparent transparent;
+        }
+        
+        .reset-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .reset-btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .progress-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .progress-title {
+            font-family: 'EB Garamond', serif;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--blue-color));
+            transition: width 0.5s ease;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            margin: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--blue-color);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .semester {
+                width: 90%;
+            }
+            
+            .progress-stats {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Matemáticas Aplicadas y Ciencias de la Computación</h1>
