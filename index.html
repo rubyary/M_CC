@@ -9,20 +9,20 @@
         
         :root {
             --primary-color: #ff7eb9;
-            --secondary-color:  #ff65a3;
-            --light-blue:  #ffd6e7;
-            --lighter-blue: #fff0f7;
-            --black: #ffffff;
-            --gray:  #555555;
-            --light-gray:  #eeeeee;
+            --secondary-color: #ff65a3;
+            --light-pink: #ffd6e7;
+            --lighter-pink: #fff0f7;
+            --white: #ffffff;
+            --gray: #555555;
+            --light-gray: #eeeeee;
             --blue-color: #4285f4;
-            --dark-blue: #e6f0ff;
+            --light-blue: #e6f0ff;
         }
         
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: var(--light-blue);
-            color: var(--black);
+            background-color: var(--lighter-pink);
+            color: var(--gray);
             margin: 0;
             padding: 20px;
             line-height: 1.6;
@@ -30,7 +30,7 @@
         
         h1, h2 {
             font-family: 'EB Garamond', serif;
-            color: var(--dark-blue);
+            color: var(--secondary-color);
             text-align: center;
         }
         
@@ -57,7 +57,7 @@
         }
         
         .semester {
-            background-color: white;
+            background-color: var(--white);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 15px;
@@ -72,25 +72,24 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            border-left: 4px solid var(--secondary-color);
-            background-color: white;
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--light-pink);
         }
         
         .course:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: var(--lighter-blue);
         }
         
         .course.approved {
-            background-color: #E8F5E9; /* Light green background */
-            border-left-color: var(--primary-color);
+            background-color: var(--light-blue);
+            border-left-color: var(--blue-color);
             opacity: 0.9;
         }
         
         .course.locked {
             background-color: var(--light-gray);
-            border-left-color: #9E9E9E;
+            border-left-color: #cccccc;
             cursor: not-allowed;
             opacity: 0.7;
         }
@@ -101,7 +100,7 @@
         }
         
         .course.approved .course-code {
-            color: var(--primary-color);
+            color: var(--blue-color);
         }
         
         .credits {
@@ -158,14 +157,14 @@
         }
         
         .reset-btn:hover {
-            background-color: var(--dark-blue);
+            background-color: var(--primary-color);
         }
         
         .progress-container {
             max-width: 800px;
             margin: 40px auto;
             padding: 20px;
-            background-color: white;
+            background-color: var(--white);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -173,7 +172,7 @@
         
         .progress-title {
             font-family: 'EB Garamond', serif;
-            color: var(--dark-blue);
+            color: var(--secondary-color);
             font-size: 1.8rem;
             margin-bottom: 20px;
         }
@@ -205,7 +204,7 @@
         .stat-value {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--dark-blue);
+            color: var(--blue-color);
         }
         
         @media (max-width: 768px) {
